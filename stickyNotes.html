@@ -1,0 +1,80 @@
+<!-- Javascript excercise 1 from chapter 8 to 15 
+Create a web app that allows a user to create notes.
+must be able to create new notes
+must be able to delete notes
+must be able to edit notes
+must be able to view all notes created
+notes must be persistent (remain even after the browser has been closed and reopened)
+
+The following information must be kept:
+date of creation (cannot be modified)
+date of last edit (must be updated only when information is edited)
+text data
+
+
+Optional
+Display a set of divs with visible borders.
+A user must be able to drag & drop a div to a specially indicated area 
+Any div placed in the designated area must be visually edited through control components such as color pickers and sliders. Editable properties should include:
+border color
+border thickness
+background color
+rounded edges
+The items must be able to be placed back, retaining any modifications made.
+
+
+
+
+
+
+Design Patterns
+Using the notes application from a previous exercise, enhance it to have the following features:
+
+Search functionality
+    Add a search box
+    Filter the display to only show the notes containing the substring of the search box
+    If the search box is empty, display all the notes
+Order notes
+    User must be able to order the notes using drag & drop actions
+Undo functionality
+    Implement a history stack
+    The user must be able to undo an action by clicking an undo button as well as through the ctrl+z shortcut
+    Actions include:
+        Note edit
+        Note creation
+        Note deletion
+        Note ordering
+	Patterns suggested: mvp, observer, module, factory, command
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Notes</title>
+
+    <link rel="stylesheet" href="css/vendor/normalize.css" />
+    <link rel="stylesheet" href="css/vendor/skeleton.css" />
+    <link rel="stylesheet" href="css/notes/notes.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Notes</h1>
+        </div>
+    </header>
+    <div id="notebook" class="container notebook">
+        <div class="note note-add">
+            <div class="add"></div>
+        </div>
+    </div>
+    <script src="js/notebook.js"></script>
+</body>
+
+</html>

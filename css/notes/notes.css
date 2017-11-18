@@ -1,0 +1,125 @@
+.notebook {
+    display: flex;
+    flex-wrap: wrap;
+}
+.note {
+    display: block;
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+}
+.note:hover .note-remove {
+    display: block;
+}
+.note-flexbox {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+    margin: .5rem;
+}
+.note-filled {
+    background-color: yellow;
+}
+.note-tittle {
+    flex: 0.7;
+    height: 40px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-bottom: 1px solid black;
+    margin: 0
+}
+.note-tittle::-webkit-scrollbar {
+    width: 4px;
+}
+.note-tittle::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+.note-tittle::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+.note-content {
+    flex: 2;
+    height: 90px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-bottom: 0;
+}
+.note-content::-webkit-scrollbar {
+    width: 4px;
+}
+.note-content::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+.note-content::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+.note-footer {
+    flex: 0.3;
+    text-align: right;
+    margin: 0;
+    font-size: 1rem;
+    align-self: flex-end;
+}
+.note-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.1)
+}
+.note-add:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.note-remove {
+    width: inherit;
+    height: 20px;
+    position: absolute;
+    display: none;
+    padding: 3px;
+    box-sizing: border-box;
+    direction: rtl;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.delete {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid black;
+    font-size: 1rem;
+    text-align: center;
+}
+.delete::before {
+    content: 'x';
+    display: block;
+    position: absolute;
+    line-height: 1rem;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+.add {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid black;
+    font-size: 4.5rem;
+    text-align: center;
+}
+.add::before {
+    content: '+';
+    display: block;
+    position: absolute;
+    line-height: 4.25rem;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}

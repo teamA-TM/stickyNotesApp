@@ -1,2 +1,1 @@
 # stickyNotesApp
-Practical excersice
