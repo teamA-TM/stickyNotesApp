@@ -1,10 +1,7 @@
-function NoteBook(elem,notes){
-    var board = elem;
-    notes = notes || [];
+function NotePresenter(){
+    
     return {
-        addNote: function(){
-
-        },
+        addNote: function(){},
         getNote: function(){}
     }
 }
