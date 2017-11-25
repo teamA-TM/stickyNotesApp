@@ -70,10 +70,11 @@ var notePresenter = (function () {
                     }
                 }
             }
-            noteModel.ordering(notesChanged);
+            noteModel.ordering("ordering", notesChanged);
         },
         ordering: function (action, notes) {
-
+            noteModel.ordering(action, notes);
+            noteView.edit.apply(undefined,notes);
         },
         edit: function (action, data) {
             var hadChange = noteModel.edit(action, data);
@@ -89,12 +90,16 @@ var notePresenter = (function () {
         redo: function () {
             var change = {}
             change = noteModel.redo();
-            notePresenter.execute(change.action, "redo", change.changes);
+            if (!!change) {
+                notePresenter.execute(change.action, "redo", change.changes);
+            }
         },
         undo: function () {
             var change = {}
             change = noteModel.undo();
-            notePresenter.execute(change.action, "undo", change.changes);
+            if (!!change) {
+                notePresenter.execute(change.action, "undo", change.changes);
+            }
         }
     }
 })();

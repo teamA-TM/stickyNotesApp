@@ -240,9 +240,9 @@ var noteView = (function (noteApp) {
         removeNote: function (guid, target) {
             if (target == undefined) {
                 var notes = Array.from(board.children);
-                    target = notes.find(function (note) {
-                        return note.guid == guid;
-                    });
+                target = notes.find(function (note) {
+                    return note.guid == guid;
+                });
             }
             searchBox.removeObserver(target);
             board.removeChild(target);
@@ -250,8 +250,33 @@ var noteView = (function (noteApp) {
         addNote: function (note) {
             createNoteElem(note);
         },
-        edit: function(){
-
+        edit: function () {
+            var notes = Array.from(board.children),
+                args = Array.from(arguments);
+            args.forEach(function (data) {
+                var note = notes.find(function (note) {
+                    return note.guid == data.id;
+                });
+                for (const key in data) {
+                    switch (key) {
+                        case "tittle":
+                            note.children[1].children[0].innerText = data[key];
+                            break;
+                        case "message":
+                            note.children[1].children[1].innerText = data[key];
+                            break;
+                        case "creationDate":
+                        case "editionDate":
+                            note.children[1].children[2].innerText = data.editionDate ? "Posted: " + data.creationDate + "\n Edited: " + data.editionDate : "Posted: " + data.creationDate;
+                            break;
+                        case "order":
+                            note.style.order = data[key];
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
         }
     }
 })(document.getElementById("notebook"));

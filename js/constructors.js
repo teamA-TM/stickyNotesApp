@@ -20,12 +20,15 @@ function History() {
 }
 
 History.prototype.addChange = function (action, change) {
+    if(action != "redo" || this.hPointer < this.changes.length)
     this.changes[this.hPointer] = change;
 
-    if (action != "undo" && action != "redo") {
+    if (action != "undo" && this.hPointer < this.changes.length) {
         this.hPointer++;
-        for (let index = this.hPointer, length = this.changes.length; index < length; index++) {
-            delete this.changes[index];
+        if (action != "redo") {
+            for (let index = this.hPointer, length = this.changes.length; index < length; index++) {
+                delete this.changes[index];
+            }
         }
     }
 };
@@ -38,7 +41,7 @@ History.prototype.undo = function () {
 
 History.prototype.redo = function () {
     if (this.hPointer < this.changes.length) {
-        return this.changes[this.hPointer++];
+        return this.changes[this.hPointer];
     }
 };
 

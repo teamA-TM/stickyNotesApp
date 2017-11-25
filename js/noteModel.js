@@ -103,7 +103,9 @@ var noteModel = (function () {
             save();
             addChange(action, new Change("create", Object.assign({}, note)));
         },
-        redo: function () { },
+        redo: function () { 
+            return noteHistory.redo();
+        },
         undo: function () {
             return noteHistory.undo();
         }
