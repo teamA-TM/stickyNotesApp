@@ -1,12 +1,27 @@
 .notebook {
     display: flex;
+    flex-flow: column;
+}
+
+.notebook-tools{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+}
+
+.notebook-notes {
+    display: flex;
     flex-wrap: wrap;
 }
+
 .note {
     display: block;
     width: 200px;
     height: 200px;
     margin: 10px;
+}
+.note-hidden{
+    display: none;
 }
 .note:hover .note-remove {
     display: block;
@@ -67,6 +82,7 @@
     align-self: flex-end;
 }
 .note-add {
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,6 +134,49 @@
     display: block;
     position: absolute;
     line-height: 4.25rem;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+
+.undo {
+    cursor: pointer;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid black;
+    font-size: 2.5rem;
+    text-align: center;
+}
+.undo::before {
+    content: '←';
+    display: block;
+    position: absolute;
+    line-height: 2.5rem;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.redo {
+    cursor: pointer;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid black;
+    font-size: 2.5rem;
+    text-align: center;
+}
+.redo::before {
+    content: '→';
+    display: block;
+    position: absolute;
+    line-height: 2.5rem;
     left: 0;
     top: 0;
     height: 100%;
