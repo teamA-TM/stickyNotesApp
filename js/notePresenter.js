@@ -12,23 +12,26 @@ var notePresenter = (function () {
 
         printNote = function (note) {
             noteView.addNote(note);
-        },
-
-        execute = function ( name ) {
-            return notePresenter[name] && notePresenter[name].apply(notePresenter, [].slice.call(arguments, 1) );
-        };
+        }
 
     init();
 
     return {
+        execute: function (name) {
+            return notePresenter[name] && notePresenter[name].apply(notePresenter, [].slice.call(arguments, 1));
+        },
         debug: function () {
             console.log(noteModel.debug());
         },
-        create: function () {
-            id = noteModel.genID();
-            // creating a new note
-            var note = new Note(id, "Click Tittle", "Click Message", new Date(), id);
-            noteModel.create(note);
+        create: function (action, note) {
+
+            if (note == undefined) {
+                var id = noteModel.genID();
+                // creating a new note
+                note = new Note(id, "Click Tittle", "Click Message", new Date(), id);
+            }
+
+            noteModel.create(action, note);
             printNote(note);
         },
         orderingByDom: function (notes, data) {
@@ -69,22 +72,29 @@ var notePresenter = (function () {
             }
             noteModel.ordering(notesChanged);
         },
-        ordering: function(notes) {
+        ordering: function (action, notes) {
 
         },
-        edit: function (data) {
-            return noteModel.edit(data);
+        edit: function (action, data) {
+            var hadChange = noteModel.edit(action, data);
+            if (action == "edit") {
+                return hadChange;
+            }
+            noteView.edit(data);
         },
-        delete: function (id, note) {
-            noteModel.delete(id);
-            noteView.removeNote(note);
+        delete: function (action, id, note) {
+            noteModel.delete(action, id);
+            noteView.removeNote(id, note);
         },
         redo: function () {
-
+            var change = {}
+            change = noteModel.redo();
+            notePresenter.execute(change.action, "redo", change.changes);
         },
         undo: function () {
             var change = {}
             change = noteModel.undo();
+            notePresenter.execute(change.action, "undo", change.changes);
         }
     }
 })();

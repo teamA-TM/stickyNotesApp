@@ -2,14 +2,16 @@ var noteModel = (function () {
     var noteHistory = new History(),
         notes = { last: 0 }
 
-    addChange = function (change) {
-        noteHistory.addChange(change);
+    addChange = function (action, change) {
+        noteHistory.addChange(action, change);
     },
 
 
         save = function (note) {
-            // save note
-            notes[note.id] = note;
+            if (note != undefined) {
+                // save note
+                notes[note.id] = note;
+            }
             // registing the note
             localStorage.setItem("notes", JSON.stringify(notes));
         }
@@ -46,22 +48,22 @@ var noteModel = (function () {
         genID: function () {
             return ++notes['last'];
         },
-        create: function (note) {
-            addChange(new Change("create", note.id));
+        create: function (action, note) {
+            addChange(action, new Change("delete", note.id));
             save(note);
         },
-        ordering: function (noteschanged) {
+        ordering: function (action, noteschanged) {
             var beforeOrder = [];
             noteschanged.forEach(function (data) {
                 var note = Object.assign({}, notes[data.id]);
-                beforeOrder.push({id: note.id,order: note.order})
+                beforeOrder.push({ id: note.id, order: note.order })
                 note.order = data.order;
                 save(note);
             });
 
-            addChange(new Change("ordering", beforeOrder));
+            addChange(action, new Change("ordering", beforeOrder));
         },
-        edit: function (data) {
+        edit: function (action, data) {
             // finding the note
             var note = Object.assign({}, notes[data.id]),
                 hadChange = false;
@@ -76,7 +78,8 @@ var noteModel = (function () {
 
             if (hadChange) {
                 note["editionDate"] = data["editionDate"] ? data["editionDate"] : note["editionDate"];
-                addChange(new Change("edit", Object.assign({}, notes[data.id])));
+
+                addChange(action, new Change("edit", Object.assign({}, notes[data.id])));
                 // saving the note
                 save(note);
             }
@@ -84,7 +87,7 @@ var noteModel = (function () {
             // returning the note to display
             return hadChange;
         },
-        delete: function (id) {
+        delete: function (action, id) {
             var note = Object.assign({}, notes[id]);
             delete notes[id];
             isEmpty = true;
@@ -97,12 +100,12 @@ var noteModel = (function () {
             if (isEmpty) {
                 notes["last"] = 0;
             }
-
-            addChange(new Change("delete", Object.assign({}, note)));
+            save();
+            addChange(action, new Change("create", Object.assign({}, note)));
         },
         redo: function () { },
         undo: function () {
-            return changes = noteHistory.undo();
+            return noteHistory.undo();
         }
     }
 })();

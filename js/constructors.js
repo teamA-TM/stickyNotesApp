@@ -19,14 +19,28 @@ function History() {
     this.hPointer = 0;
 }
 
-History.prototype.addChange = function (change) {
-    this.changes[this.hPointer++] = change;
+History.prototype.addChange = function (action, change) {
+    this.changes[this.hPointer] = change;
+
+    if (action != "undo" && action != "redo") {
+        this.hPointer++;
+        for (let index = this.hPointer, length = this.changes.length; index < length; index++) {
+            delete this.changes[index];
+        }
+    }
 };
+
 History.prototype.undo = function () {
     if (this.hPointer > 0) {
         return this.changes[--this.hPointer];
     }
-}
+};
+
+History.prototype.redo = function () {
+    if (this.hPointer < this.changes.length) {
+        return this.changes[this.hPointer++];
+    }
+};
 
 
 // First, let's model the list of dependent Observers a subject may have:

@@ -34,17 +34,17 @@ var noteView = (function (noteApp) {
 
         board.addEventListener("click", function (event) {
             if (findParentClassName(event.target, /note-add/i)) {
-                notePresenter.create();
+                notePresenter.create("create");
             }
 
             if (findParentClassName(event.target, /delete/i)) {
                 var note = findParentClassName(event.target, /note[^-]/i);
-                notePresenter.delete(note.guid, note);
+                notePresenter.delete("delete", note.guid, note);
             }
         });
 
         board.addEventListener("focusout", function (event) {
-            var note, parentContent = event.target.parentNode,
+            var parentContent = event.target.parentNode,
                 elemDate = parentContent.children[2].innerText,
                 data = {
                     id: parentContent.guid,
@@ -53,7 +53,7 @@ var noteView = (function (noteApp) {
                     editionDate: (new Date()).toLocaleString('en-US', { hour12: false })
                 }
 
-            if (!notePresenter.edit(data))
+            if (!notePresenter.edit("edit", data))
                 return;
 
             if (!elemDate.match(/Edited/))
@@ -237,12 +237,21 @@ var noteView = (function (noteApp) {
         debug: function () {
 
         },
-        removeNote: function (target) {
+        removeNote: function (guid, target) {
+            if (target == undefined) {
+                var notes = Array.from(board.children);
+                    target = notes.find(function (note) {
+                        return note.guid == guid;
+                    });
+            }
             searchBox.removeObserver(target);
             board.removeChild(target);
         },
         addNote: function (note) {
             createNoteElem(note);
+        },
+        edit: function(){
+
         }
     }
 })(document.getElementById("notebook"));
