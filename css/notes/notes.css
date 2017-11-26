@@ -39,11 +39,18 @@
 }
 .note-tittle {
     flex: 0.7;
+    min-height: 0;
     height: 40px;
     overflow-y: auto;
     overflow-x: hidden;
+    border: none;
     border-bottom: 1px solid black;
-    margin: 0
+    margin: 0;
+    background-color: transparent;
+    resize: none;
+    border-radius: 0;
+    font-size: 1.45em;
+    font-weight: bold;
 }
 .note-tittle::-webkit-scrollbar {
     width: 4px;
@@ -62,6 +69,10 @@
     overflow-y: auto;
     overflow-x: hidden;
     margin-bottom: 0;
+    background-color: transparent;
+    resize: none;
+    border: none;
+    border-radius: 0;
 }
 .note-content::-webkit-scrollbar {
     width: 4px;

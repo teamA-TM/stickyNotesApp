@@ -28,6 +28,21 @@ var noteView = (function (noteApp) {
             }
         });
 
+        document.addEventListener("keydown", function (event){
+            if(event.key == "z" && event.ctrlKey || event.key == "y" && event.ctrlKey)
+            event.preventDefault();
+        });
+
+        document.addEventListener("keyup", function (event) {
+            if(event.key == "z" && event.ctrlKey){
+                notePresenter.undo();
+            }
+            
+            if(event.key == "y" && event.ctrlKey){
+                notePresenter.redo();
+            }
+        });
+
         searchBox.addEventListener("keyup", function (event) {
             searchBox.notify(searchBox.value);
         });
@@ -48,8 +63,8 @@ var noteView = (function (noteApp) {
                 elemDate = parentContent.children[2].innerText,
                 data = {
                     id: parentContent.guid,
-                    tittle: parentContent.children[0].innerText,
-                    message: parentContent.children[1].innerText,
+                    tittle: parentContent.children[0].value,
+                    message: parentContent.children[1].value,
                     editionDate: (new Date()).toLocaleString('en-US', { hour12: false })
                 }
 
@@ -162,8 +177,8 @@ var noteView = (function (noteApp) {
                 noteElemString = '<div class="note note-filled" draggable="true">' +
                     '<div class="note-remove"><div class="delete"></div></div>' +
                     '<div class="note-flexbox">' +
-                    '<h5 class="note-tittle" contenteditable></h5>' +
-                    '<p class="note-content" contenteditable></p>' +
+                    '<textarea class="note-tittle" ></textarea>' +
+                    '<textarea class="note-content" ></textarea>' +
                     '<p class="note-footer"></p>' + '</div>' + '</div>',
                 fragment = doc.createDocumentFragment(),
                 scripts = getNodes(noteElemString, doc, fragment);
@@ -175,8 +190,8 @@ var noteView = (function (noteApp) {
             fragment.children[0].guid = note.id;
 
             fragment.children[0].children[1].guid = note.id;
-            fragment.children[0].children[1].children[0].innerText = note.tittle;
-            fragment.children[0].children[1].children[1].innerText = note.message;
+            fragment.children[0].children[1].children[0].value = note.tittle;
+            fragment.children[0].children[1].children[1].value = note.message;
             fragment.children[0].children[1].children[2].innerText = date;
 
             extend(fragment.children[0], new Observer());
@@ -260,10 +275,10 @@ var noteView = (function (noteApp) {
                 for (const key in data) {
                     switch (key) {
                         case "tittle":
-                            note.children[1].children[0].innerText = data[key];
+                            note.children[1].children[0].value = data[key];
                             break;
                         case "message":
-                            note.children[1].children[1].innerText = data[key];
+                            note.children[1].children[1].value = data[key];
                             break;
                         case "creationDate":
                         case "editionDate":
