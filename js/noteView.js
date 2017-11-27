@@ -28,17 +28,17 @@ var noteView = (function (noteApp) {
             }
         });
 
-        document.addEventListener("keydown", function (event){
-            if(event.key == "z" && event.ctrlKey || event.key == "y" && event.ctrlKey)
-            event.preventDefault();
+        document.addEventListener("keydown", function (event) {
+            if (event.key == "z" && event.ctrlKey || event.key == "y" && event.ctrlKey)
+                event.preventDefault();
         });
 
         document.addEventListener("keyup", function (event) {
-            if(event.key == "z" && event.ctrlKey){
+            if (event.key == "z" && event.ctrlKey) {
                 notePresenter.undo();
             }
-            
-            if(event.key == "y" && event.ctrlKey){
+
+            if (event.key == "y" && event.ctrlKey) {
                 notePresenter.redo();
             }
         });
@@ -196,11 +196,21 @@ var noteView = (function (noteApp) {
 
             extend(fragment.children[0], new Observer());
             fragment.children[0].update = function (value) {
+                var content = this.children[1].children[0].value.toLowerCase() + " " +
+                    this.children[1].children[1].value.toLowerCase() + " " +
+                    this.children[1].children[2].innerText.toLowerCase();
+
+
+                value = value.toLowerCase();
+
                 if (this.className.indexOf("note-hidden") < 0 &&
-                    this.innerText.toLowerCase().search(value.toLowerCase()) < 0) {
+                    content.search(value) < 0) {
+
                     this.className += " note-hidden";
                 }
-                else if (this.className.indexOf("note-hidden") >= 0 && this.innerText.search(value.toLowerCase()) >= 0) {
+                else if (this.className.indexOf("note-hidden") >= 0 &&
+                    content.search(value) >= 0) {
+
                     this.className = this.className.slice(0,
                         this.className.indexOf(" note-hidden")
                     );
